@@ -1,0 +1,76 @@
+//ERROR: Cuando hay espacios o caracteres no alfabeticos no sirve
+
+#include <cs50.h>
+#include <stdio.h>
+#include <ctype.h> //(isupper, islower, isalpha)
+#include <string.h> //(strlen)
+
+int main(int argc, string argv [])
+{
+    //Comprueba que se ejecute con un solo argumento de linea de comando
+    if (argc != 2)
+    {
+        printf("Usage: ./vigenere keyword\n");
+        return 1;
+    }
+
+    //Almacena el argumento en una variable string
+    string k = argv [1];
+
+    for (int i = 0, n = strlen(k); i < n; i++)
+    {
+        //Comprueba que la key sean caracteres alfabeticos o termina
+        if (!isalpha(k[i]))
+        {
+            printf("Por favor proporciona una clave de encriptacion en caracteres alfabeticos\n");
+            return 1;
+        }
+    }
+    //No funciono (Internet)
+    //   else
+    //   {
+    //        k[i] = tolower(k[i]);
+    //        k[i] = k[i] - 'a';
+    //   }
+    //}
+
+    //Pide el texto plano al usuario
+    printf("Ingresa tu texto\n");
+    string p = get_string("plaintext: ");
+
+    printf("ciphertext: ");
+
+    //int j = 0; (Otra manera de hacerlo, no funciono)
+
+    //Almacena la longitud de la key en una variable int
+    int t = strlen(k);
+
+    for (int i = 0, m = strlen(p); i < m; i++)
+    {
+        k[i] = toupper(k[i]); //Convierte en mayus a todas las letras de la key
+        int cipherKey = ((k[i % t]) - 'A'); //Formula para tratar las letras (A o a ... Z o z) como 0 o 25 respectivamente
+
+        if (isupper(p[i]))
+        {
+            //Ci = (Pi + Kj) % 26 (Formula general)
+
+            //Cifra las letras en mayus y las imprime
+            p[i] = ((p[i] - 'A') + cipherKey) % 26 + 'A';
+            printf("%c", p[i]);
+        }
+        else if (islower(p[i]))
+        {
+            //Cifra las letras en minus y las imprime
+            p[i] = ((p[i] - 'a') + cipherKey) % 26 + 'a';
+            printf("%c", p[i]);
+        }
+        else
+        {
+            //Imprime los caracteres q no sean alfabeticos, sin cambios
+            printf("%c", p[i]);
+        }
+    }
+    //Imprime una nueva linea
+    printf("\n");
+    return 0;
+}
