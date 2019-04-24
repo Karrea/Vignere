@@ -1,0 +1,9 @@
+i = 2020;
+do { 
+  console.log (i)
+  i += 4;
+  } while (i < 2050)
+  
+for (i = 2020; i < 2050; i += 4) {
+  console.log (i)
+}
